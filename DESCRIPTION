@@ -19,7 +19,8 @@ Imports:
     tidyverse
 Remotes:
     metrumresearchgroup/mrgsolve/rdev,
-    dpastoor/PKPDmisc
+    dpastoor/PKPDmisc,
+    dpastoor/vancomycin
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
