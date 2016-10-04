@@ -1,0 +1,11 @@
+bookdown::gitbook:
+  config:
+    toc:
+      collapse: section
+      before: |
+        <li><strong><a href="./"> Bayesian Tutorial </a></strong></li>
+    edit:
+      link: https://github.com/dpastoor/bayesiantutorial/edit/master/%s
+      text: "Edit"
+    sharing: no
+  css: bayesiantutorial.css
