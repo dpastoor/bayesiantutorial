@@ -1,0 +1,24 @@
+Package: bayesiantutorial
+Type: Package
+Title: Learn about differences between bayesian and traditional parametric NMLE techniques
+Version: 0.0.1
+Date: 2016-10-03 
+Authors@R: c(
+    person("Devin", "Pastoor",
+    email = "devin.pastoor@gmail.com", role = c("aut", "cre")))
+Description: Tutorial and documentation to get started with bayesian NLME analysis
+Depends:
+    R (>= 3.3.0)
+LinkingTo: Rcpp,
+    BH
+Imports:
+    devtools,
+    knitr,
+    ggplot2,
+    tidyverse
+Remotes:
+    metrumresearchgroup/mrgsolve/rdev,
+    dpastoor/PKPDmisc
+License: MIT + file LICENSE
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
