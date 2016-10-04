@@ -12,6 +12,7 @@ Depends:
 LinkingTo: Rcpp,
     BH
 Imports:
+    bookdown,
     devtools,
     knitr,
     ggplot2,
