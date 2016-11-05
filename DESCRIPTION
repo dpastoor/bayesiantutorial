@@ -20,6 +20,7 @@ Imports:
     mrgsolve,
     PKPDmisc,
     vancomycin,
+    testthat,
     tidyverse
 Remotes:
     metrumresearchgroup/mrgsolve/rdev,
