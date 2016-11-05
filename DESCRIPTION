@@ -16,6 +16,7 @@ Imports:
     devtools,
     knitr,
     ggplot2,
+    MASS,
     mrgsolve,
     PKPDmisc,
     vancomycin,
