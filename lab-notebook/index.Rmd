@@ -10,7 +10,7 @@ site: bookdown::bookdown_site
 documentclass: book
 ---
 
-# Welcome {-}
+## Welcome {-}
 
 This tutorial is a reasonably self-contained tutorial and documentation source about trasitioning to bayesian analysis from traditional first order estimation techniques for nonlinear-mixed-effects modeling. The overarching objective is to provide a resource for some of the additional complexity that bayesian analysis suggests/requires (mu-modeling, additional estimation tuning, etc) and to compare output under various scenarios to that of FOCE-based estimation.
 
