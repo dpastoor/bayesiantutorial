@@ -16,6 +16,9 @@ Imports:
     devtools,
     knitr,
     ggplot2,
+    mrgsolve,
+    PKPDmisc,
+    vancomycin,
     tidyverse
 Remotes:
     metrumresearchgroup/mrgsolve/rdev,
