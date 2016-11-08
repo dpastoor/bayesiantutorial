@@ -15,10 +15,12 @@ Imports:
     bookdown,
     devtools,
     knitr,
+    GGally,
     ggplot2,
     MASS,
     mrgsolve,
     PKPDmisc,
+    progress,
     vancomycin,
     testthat,
     tidyverse
