@@ -30,7 +30,6 @@ if (length(missing_packages)) {
 }
 remote_sources <- desc$get_remotes()
 
-.package = "vancomycin"
 where_to_download_probably <- function(.package, remote_sources) {
   is_in_remote <- grepl(.package, remote_sources)
   if (any(is_in_remote)) {
