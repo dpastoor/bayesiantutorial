@@ -1,0 +1,58 @@
+## Dataset Creation
+
+```{r message=FALSE}
+library(knitr)
+library(PKPDmisc)
+library(tidyverse)
+```
+
+```{r}
+source("../scripts/utils/trim_mins.R")
+```
+
+The following covariance matrix was generated from 
+fitting the baseline demographics from a couple hundred neonates in a hospital setting, primarily the NICU.
+
+```{r}
+cov_matrix <- structure(c(1.2504924787472, -0.0894884026845637, 0.661592810514541, 
+7.60498389261745, -0.0894884026845637, 0.0533188187919463, -1.0753788738255, 
+-0.64935033557047, 0.661592810514541, -1.0753788738255, 79.539990497774, 
+5.33751013422819, 7.60498389261745, -0.64935033557047, 5.33751013422819, 
+56.2285906040268), .Dim = c(4L, 4L), .Dimnames = list(c("WT", 
+"CRE", "AGE", "HT"), c("WT", "CRE", "AGE", "HT")))
+
+demog_means <- c("WT" = 2.424, "CRE" = 0.561, "AGE" = 13.08, "HT" = 44.9)
+
+# to trim resampled values
+demog_mins <- c("WT" = 0.6, "CRE" = 0.2, "AGE" = 1, "HT" = 20)
+
+```
+
+```{r}
+sample_ids <- MASS::mvrnorm(500, 
+                      demog_means, 
+                      cov_matrix, 
+                      empirical = T) %>%
+  as_data_frame %>% 
+  trim_mins(demog_mins) %>% 
+  ## generate males and females
+  mutate(SEX = factor(rbernoulli(nrow(.)), 
+                      labels = c("FEMALE", "MALE")))
+```
+
+This functionality is encapsulated in the script `generate_demographics.R` for use
+in other files.
+
+```{r}
+GGally::ggpairs(sample_ids)
+```
+
+```{r}
+head(sample_ids)
+```
+
+
+```{r cache = FALSE}
+devtools::session_info()
+```
+

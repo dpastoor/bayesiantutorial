@@ -2,6 +2,7 @@ new_session: yes
 
 rmd_files: [
   "index.Rmd",
+  "demographics_background.Rmd",
   "dataset_creation.Rmd"
 ]
 
