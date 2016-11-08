@@ -34,7 +34,7 @@ remote_sources <- desc$get_remotes()
 where_to_download_probably <- function(.package, remote_sources) {
   is_in_remote <- grepl(.package, remote_sources)
   if (any(is_in_remote)) {
-     message("devtools::install_github(", remote_sources[is_in_remote], ")")
+     message("devtools::install_github('", remote_sources[is_in_remote], "')")
   } else {
     message("install.packages(", .package, ")")
   }
