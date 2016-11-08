@@ -40,6 +40,8 @@ sample_ids <- MASS::mvrnorm(500,
                       labels = c("FEMALE", "MALE")))
 ```
 
+This functionality is encapsulated in the script `generate_demographics.R` for use
+in other files.
 
 ```{r}
 GGally::ggpairs(sample_ids)
