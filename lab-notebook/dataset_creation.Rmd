@@ -4,7 +4,7 @@
 library(knitr)
 library(PKPDmisc)
 library(tidyverse)
-library(mrgsolve)
+library(vancomycin)
 ```
 
 ```{r}
@@ -25,11 +25,13 @@ demogs <- generate_demographics(NIDS) %>% mutate(ID = 1:nrow(.))
 ```
 
 ```{r}
-create_mrgsolve_dosing <- function(.ids) {
-  data_frame(ID = .ids) %>% mutate(CMT = 1, 
-                                   EVID = 1,
-                                   TIME = 0)
-}
+
+for_dosing <- demogs %>% 
+                  mutate(
+                      CMT = 1, 
+                      EVID = 1,
+                      TIME = 0
+                  )
 ```
 
 ```{r}
