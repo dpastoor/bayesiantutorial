@@ -25,7 +25,6 @@ demogs <- generate_demographics(NIDS) %>% mutate(ID = 1:nrow(.))
 ```
 
 ```{r}
-
 for_dosing <- demogs %>% 
                   mutate(
                       CMT = 1, 
@@ -34,15 +33,6 @@ for_dosing <- demogs %>%
                   )
 ```
 
-```{r}
-demogs %>%
-  map
-```
-
-
-
-
 ```{r cache = FALSE}
 devtools::session_info()
 ```
-
