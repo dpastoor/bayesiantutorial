@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Bayesian Tutorial</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Understanding Bayesian NLME analysis">
+  <meta name="generator" content="bookdown 0.1 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Bayesian Tutorial" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="<a href="http://www.devinpastoor.com/bayesiananalysis/" class="uri">http://www.devinpastoor.com/bayesiananalysis/</a>" />
+  
+  <meta property="og:description" content="Understanding Bayesian NLME analysis" />
+  <meta name="github-repo" content="dpastoor/bayesiananalysis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Bayesian Tutorial" />
+  <meta name="twitter:site" content="@devinpastoor" />
+  <meta name="twitter:description" content="Understanding Bayesian NLME analysis" />
+  
+
+<meta name="author" content="Devin Pastoor">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="steps.html">
+<link rel="next" href="dataset-creation.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="bayesiantutorial.css" type="text/css" />
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="steps.html"><a href="steps.html"><i class="fa fa-check"></i><b>1</b> Steps</a></li>
+<li class="chapter" data-level="2" data-path="demographics-background.html"><a href="demographics-background.html"><i class="fa fa-check"></i><b>2</b> Demographics Background</a></li>
+<li class="chapter" data-level="3" data-path="dataset-creation.html"><a href="dataset-creation.html"><i class="fa fa-check"></i><b>3</b> Dataset Creation</a><ul>
+<li class="chapter" data-level="3.1" data-path="dataset-creation.html"><a href="dataset-creation.html#generate-data-for-mrgsolve"><i class="fa fa-check"></i><b>3.1</b> Generate data for mrgsolve</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Tutorial</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="demographics-background" class="section level1">
+<h1><span class="header-section-number">2</span> Demographics Background</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+<span class="kw">library</span>(PKPDmisc)
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;../scripts/generate_demographics.R&quot;</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;magrittr&#39;</span>
+<span class="co">#&gt; The following object is masked from &#39;package:purrr&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     set_names</span>
+<span class="co">#&gt; The following object is masked from &#39;package:tidyr&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     extract</span></code></pre></div>
+<p>The following covariance matrix was generated from fitting the baseline demographics from a couple hundred neonates in a hospital setting, primarily the NICU.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample_ids &lt;-<span class="st"> </span><span class="kw">generate_demographics</span>(<span class="dv">500</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span>## generate males and females
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">SEX =</span> <span class="kw">factor</span>(<span class="kw">rbernoulli</span>(<span class="kw">nrow</span>(.)), 
+                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;FEMALE&quot;</span>, <span class="st">&quot;MALE&quot;</span>)))</code></pre></div>
+<p>This functionality is encapsulated in the script <code>generate_demographics.R</code> for use in other files.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">GGally::<span class="kw">ggpairs</span>(sample_ids)
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></code></pre></div>
+<p><img src="demographics_background_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(sample_ids)
+<span class="co">#&gt; # A tibble: 6 × 6</span>
+<span class="co">#&gt;      WT   CRE   AGE   PMA    HT    SEX</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;</span>
+<span class="co">#&gt; 1 3.263 0.557  9.99   270  45.9 FEMALE</span>
+<span class="co">#&gt; 2 4.389 0.423 55.58   348  51.0   MALE</span>
+<span class="co">#&gt; 3 2.659 0.720 36.76   242  53.1 FEMALE</span>
+<span class="co">#&gt; 4 0.921 0.643 39.31   241  34.4 FEMALE</span>
+<span class="co">#&gt; 5 2.898 0.269 33.18   279  41.5 FEMALE</span>
+<span class="co">#&gt; 6 3.941 0.563 31.29   256  58.3   MALE</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">session_info</span>()
+<span class="co">#&gt; Session info --------------------------------------------------------------</span>
+<span class="co">#&gt;  setting  value                       </span>
+<span class="co">#&gt;  version  R version 3.3.2 (2016-10-31)</span>
+<span class="co">#&gt;  system   x86_64, darwin13.4.0        </span>
+<span class="co">#&gt;  ui       X11                         </span>
+<span class="co">#&gt;  language (EN)                        </span>
+<span class="co">#&gt;  collate  en_US.UTF-8                 </span>
+<span class="co">#&gt;  tz       America/New_York            </span>
+<span class="co">#&gt;  date     2016-11-17</span>
+<span class="co">#&gt; Packages ------------------------------------------------------------------</span>
+<span class="co">#&gt;  package   * version  date       source                            </span>
+<span class="co">#&gt;  backports   1.0.4    2016-10-24 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  bookdown    0.1      2016-07-13 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  devtools    1.12.0   2016-06-24 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  digest      0.6.10   2016-08-02 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  evaluate    0.10     2016-10-11 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  formatR     1.4      2016-05-09 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  htmltools   0.3.5    2016-03-21 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  httpuv      1.3.3    2015-08-04 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  knitr       1.14     2016-08-13 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  magrittr    1.5      2014-11-22 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  memoise     1.0.0    2016-01-29 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  mime        0.5      2016-07-07 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  miniUI      0.1.1    2016-01-15 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  R6          2.2.0    2016-10-05 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  Rcpp        0.12.7   2016-09-05 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  rmarkdown   1.1.9014 2016-11-16 Github (rstudio/rmarkdown@91c7de2)</span>
+<span class="co">#&gt;  rprojroot   1.1      2016-10-29 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  shiny       0.14.2   2016-11-01 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  stringi     1.1.2    2016-10-01 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  stringr     1.1.0    2016-08-19 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  withr       1.0.2    2016-06-20 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  xtable      1.8-2    2016-02-05 CRAN (R 3.3.0)                    </span>
+<span class="co">#&gt;  yaml        2.1.13   2014-06-12 CRAN (R 3.3.0)</span></code></pre></div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="steps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dataset-creation.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/dpastoor/bayesiantutorial/edit/master/demographics_background.Rmd",
+"text": "Edit"
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="steps.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="demographics-background.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -123,23 +123,40 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Bayesian Tutorial</h1>
-<h4 class="author"><em>Devin Pastoor</em></h4>
-</div>
-<div id="welcome" class="section level1 unnumbered">
-<h1>Welcome</h1>
-<p>This tutorial is a reasonably self-contained tutorial and documentation source about trasitioning to bayesian analysis from traditional first order estimation techniques for nonlinear-mixed-effects modeling. The overarching objective is to provide a resource for some of the additional complexity that bayesian analysis suggests/requires (mu-modeling, additional estimation tuning, etc) and to compare output under various scenarios to that of FOCE-based estimation.</p>
-<p>As a secondary objective, this project should serve as a case study to managing a collaborative project using git, github and other ‘modern’ tooling for reproducible science. For contribution guidelines, see the CONTRIBUTING section below.</p>
-<p>This work is licensed under the <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0</a> United States License.</p>
+<div id="steps" class="section level1">
+<h1><span class="header-section-number">1</span> Steps</h1>
+<p>As a primary outcome of this tutorial is to understand the bayesian requirements for modeling vancomycin in neonates for bayesian forecasting dose recommendations, the data and parameter values will use existing vancomycin values to get in the ballpark of outcomes to be expected from real data.</p>
+<p>At a very high level, the following steps must be done:</p>
+<ul>
+<li>Data Generation</li>
+<li>Generate covariate distributions</li>
+<li>Simulate profiles for population of neonates</li>
+<li>Scenario ‘filters’</li>
+<li>sampling times</li>
+<li>balance of peak/trough</li>
+<li>dose modifications?</li>
+<li>Model fitting via FOCE</li>
+<li>model building</li>
+<li>covariate model building</li>
+<li>proper diagnostic analyses for evaluating model adequacy/selection</li>
+<li>Model fitting via Bayes</li>
+<li>model building</li>
+<li>covariate model building</li>
+<li>prior selection</li>
+<li>proper diagnostic analyses for evaluating model adequacy/selection</li>
+<li>Model forecasting</li>
+<li>how to handle propogation of uncertainity for probability of target attainment (PTA)</li>
+<li>influence of PTA output on recommendations (dose and future sampling)</li>
+</ul>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="steps.html" class="navigation navigation-next navigation-unique" aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="demographics-background.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
