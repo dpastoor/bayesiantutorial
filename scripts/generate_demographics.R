@@ -1,3 +1,6 @@
+# only so pipe is loaded, likely will never be a load order issue 
+# so not concerned about invoking it in the script
+library(magrittr) 
 #' generate demographics as established in dataset_creation.Rmd
 #' @param .n_inds number of individuald to generate demographic values for
 generate_demographics <- function(.n_inds) {
@@ -53,7 +56,7 @@ generate_demographics <- function(.n_inds) {
     tibble::as_data_frame() %>% 
     trim_mins(demog_mins) %>% 
     ## generate males and females
-    dplyr::mutate(SEX = factor(rbernoulli(nrow(.)), 
+    dplyr::mutate(SEX = factor(purrr::rbernoulli(nrow(.)), 
                         labels = c("FEMALE", "MALE")))
   return(sample_ids %>% dplyr::slice(1:.n_inds))
 
