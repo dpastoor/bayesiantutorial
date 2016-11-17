@@ -5,5 +5,5 @@ rmd_files: [
   "demographics_background.Rmd",
   "dataset_creation.Rmd"
 ]
-
+output_dir: "../docs"
 before_chapter_script: "_common.R"
