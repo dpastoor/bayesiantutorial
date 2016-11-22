@@ -17,7 +17,7 @@ start with a baseline of having 100 individuals worth of data, can scale to
 different amounts of individuals later
 
 ```{r}
-NIDS <- 100
+NIDS <- 10000
 ```
 
 ```{r}
@@ -30,7 +30,25 @@ for_dosing <- demogs %>%
                       CMT = 1, 
                       EVID = 1,
                       TIME = 0
-                  )
+                  ) %>% select(ID, everything())
+```
+
+
+```{r }
+all_dosing <- for_dosing %>% group_by(ID) %>%
+    nest() %>%
+    mutate(dose = map(data, ~ dosing_6bin_pna_wt(.$AGE, .$WT))
+           ) %>% unnest()
+```
+
+Dose for 8 days
+```{r}
+all_dosing <- all_dosing %>% 
+  mutate(addl = 24/II*8) 
+```
+
+```{r}
+all_dosing
 ```
 
 ```{r cache = FALSE}
