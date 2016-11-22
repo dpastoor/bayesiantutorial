@@ -19,6 +19,7 @@ Imports:
     ggplot2,
     MASS,
     mrgsolve,
+    overseer,
     PKPDmisc,
     progress,
     vancomycin,
@@ -26,6 +27,7 @@ Imports:
     tidyverse
 Remotes:
     metrumresearchgroup/mrgsolve/rdev,
+    dpastoor/overseer,
     dpastoor/PKPDmisc,
     dpastoor/vancomycin
 License: MIT + file LICENSE
