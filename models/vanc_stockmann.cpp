@@ -29,10 +29,11 @@ double Vi = V*(wt/NORM_WT)*exp(ETA(2));
 PROP : 0.04 : Proportional error
 
 [TABLE]
-double IPRED = CENT/Vi;
-double DV = CENT/Vi*(1+PROP);
+double CP = CENT/Vi;
+double DV = CP/Vi*(1+PROP);
 
 [CAPTURE] @annotated
+CP  : predicted plasma concentration (mg/L)
 DV  : plasma concentration (mg/L)
 CLi : Individual Clearance (L/hr)
 Vi  : Individual Volume (L)
