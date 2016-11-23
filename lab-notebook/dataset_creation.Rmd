@@ -11,6 +11,7 @@ library(mrgsolve)
 ```{r}
 source("../scripts/generate_demographics.R")
 ```
+
 ```{r}
 models <- source("../models/models.R")$value
 ```
@@ -21,7 +22,8 @@ start with a baseline of having 100 individuals worth of data, can scale to
 different amounts of individuals later
 
 ```{r}
-NIDS <- 20
+set.seed(1234567)
+NIDS <- 100
 ```
 
 ```{r}
@@ -73,13 +75,69 @@ mrg_data <- bind_cols(
 raw_sim <- vanc_stockmann %>% data_set(mrg_data) %>% mrgsim(end = 10*24) %>%
   as.data.frame %>% as_data_frame %>% capitalize_names()
 ```
+
+### Check distribution of trough values at SS
 ```{r}
-raw_sim %>% as.data.frame %>%
-  ggplot(aes(x = time, y = CP, group = ID)) +
-  geom_line(alpha = 0.6)
-  
+peak_trough <- raw_sim %>% filter(between(TIME, 150, 200)) %>%
+  select(ID, TIME, CP, DV) %>%
+  gather(obs, value, CP, DV) %>%
+  group_by(ID, obs) %>%
+  summarize(ctrough = min(value),
+            cmax = max(value))
 ```
 
+Peak and trough values are representative of real observations
+```{r}
+peak_trough %>%
+  gather(sample, value, ctrough, cmax) %>%
+  ggplot(aes(x = value)) + 
+  geom_density(aes(fill = obs), alpha = 0.6) +
+  facet_wrap(~sample, scales = "free") + theme_bw() +
+  base_theme()
+```
+
+
+* take simulated values and prepare for nonmem estimation
+
+```{r}
+from_sim <- raw_sim %>% 
+  distinct(ID, TIME, DV)
+
+from_orig <-  mrg_data %>% 
+  capitalize_names() %>% 
+  select(
+    ID,
+    TIME,
+    WT,
+    CRE,
+    AGE,
+    PMA, 
+    HT,
+    SEX,
+    CMT,
+    DOSE,
+    II,
+    ADDL
+  )
+```
+
+
+```{r }
+data_for_nonmem <- left_join(from_sim, from_orig) %>% 
+  group_by(ID) %>%
+  fill(WT:CMT) %>%
+  mutate(EVID = ifelse(DV == 0, 1, 0),
+         DOSE = ifelse(EVID == 1, DOSE, NA),
+         ADDL = ifelse(EVID == 1, ADDL, NA),
+         II = ifelse(EVID == 1, II, NA)
+         ) %>% 
+  ## don't need to go too far after final dose for estimation purposes
+  filter(TIME < 216)
+```
+
+```{r}
+write_nonmem("../modeling/data/rich_100.csv", data_for_nonmem)
+```
 
 ```{r cache = FALSE}
 devtools::session_info()
