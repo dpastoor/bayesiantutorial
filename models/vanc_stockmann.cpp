@@ -30,7 +30,7 @@ PROP : 0.04 : Proportional error
 
 [TABLE]
 double CP = CENT/Vi;
-double DV = CP/Vi*(1+PROP);
+double DV = CP*(1+PROP);
 
 [CAPTURE] @annotated
 CP  : predicted plasma concentration (mg/L)
