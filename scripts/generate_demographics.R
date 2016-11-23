@@ -4,7 +4,12 @@ library(magrittr)
 #' generate demographics as established in dataset_creation.Rmd
 #' @param .n_inds number of individuald to generate demographic values for
 generate_demographics <- function(.n_inds) {
-   
+   slice_inds <- 0
+   if (.n_inds < 5) {
+     # mvrnorm simulation can be buggy with less than 4 but will be extra precautious
+     slice_inds <- .n_inds
+     .n_inds <- 5
+   }
   ## copied in from trim_mins.R don't like to do so but didn't want to worry 
   ## about sourcing paths
   trim_mins <- function(df, .filters, inclusive = TRUE) {
@@ -61,13 +66,19 @@ generate_demographics <- function(.n_inds) {
     ## generate males and females
     dplyr::mutate(SEX = factor(purrr::rbernoulli(nrow(.)), 
                         labels = c("FEMALE", "MALE")))
+  if (slice_inds) {
+    # revert back to true amount after oversimulating
+    .n_inds <- slice_inds
+  }
   return(sample_ids %>% dplyr::slice(1:.n_inds))
 
 }
 
 testthat::test_that("generate_demographics behaves", {
+  generate_1 <- generate_demographics(1)
   generate_10 <- generate_demographics(10)
   generate_100 <- generate_demographics(100)
+  testthat::expect_equal(nrow(generate_1), 1)
   testthat::expect_equal(nrow(generate_10), 10)
   testthat::expect_equal(nrow(generate_100), 100)
 })
