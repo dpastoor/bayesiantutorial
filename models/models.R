@@ -16,5 +16,5 @@ models <- Overseer$new()
 
 
 models$add_model_file("vanc_stockmann")
-
+models$add_model_file("vanc_stockmann_tad")
 models
