@@ -22,6 +22,8 @@ double NORM_WT = 2.9;
 double NORM_PMA = 34.8;
 double CLi = CL*pow(wt/NORM_WT,0.75)*(1/(1 + pow((pma/NORM_PMA),-4.53)))*pow(1/scr, 0.267)*exp(ECL);
 double Vi = V*(wt/NORM_WT)*exp(EV);
+double tolow = 0; 
+if (DV < 5.0 && EVID == 0) tolow = 1;
   
 [OMEGA] @annotated
 ECL : 0.04 : Eta on CL
@@ -45,3 +47,5 @@ scr : serum creatinine (mg/dL)
 RDV : observed dv value (mg/L)
 CID : Base ID
 idose: idosing
+tolow : whether concentrations are dangerously low
+EVID : event ID
