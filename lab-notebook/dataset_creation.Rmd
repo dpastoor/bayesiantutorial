@@ -72,7 +72,7 @@ mrg_data <- bind_cols(
 ```
 
 ```{r}
-raw_sim <- vanc_stockmann %>% data_set(mrg_data) %>% mrgsim(end = 10*24) %>%
+raw_sim <- vanc_stockmann %>% data_set(mrg_data) %>% mrgsim(end = 10*24, delta = 2) %>%
   as.data.frame %>% as_data_frame %>% capitalize_names()
 ```
 
@@ -126,17 +126,20 @@ from_orig <-  mrg_data %>%
 data_for_nonmem <- left_join(from_sim, from_orig) %>% 
   group_by(ID) %>%
   fill(WT:CMT) %>%
-  mutate(EVID = ifelse(DV == 0, 1, 0),
-         DOSE = ifelse(EVID == 1, DOSE, NA),
-         ADDL = ifelse(EVID == 1, ADDL, NA),
-         II = ifelse(EVID == 1, II, NA)
-         ) %>% 
+  mutate(
+    EVID = ifelse(DV == 0, 1, 0)
+  ) %>% 
   ## don't need to go too far after final dose for estimation purposes
-  filter(TIME < 216)
+  ## also don't n
+  filter(TIME < 216) %>% 
+  ## don't need 0 concentration time point as not realistic
+  distinct(ID, TIME, .keep_all = TRUE)
 ```
 
+### write data for nonmem
+
 ```{r}
-write_nonmem("../modeling/data/rich_100.csv", data_for_nonmem)
+write_nonmem(data_for_nonmem, "../modeling/mdata/rich_100.csv")
 ```
 
 ```{r cache = FALSE}
