@@ -5,10 +5,15 @@ library(knitr)
 library(PKPDmisc)
 library(tidyverse)
 library(vancomycin)
+library(mrgsolve)
 ```
 
 ```{r}
 source("../scripts/generate_demographics.R")
+```
+
+```{r}
+models <- source("../models/models.R")$value
 ```
 
 ## Generate data for mrgsolve
@@ -17,11 +22,14 @@ start with a baseline of having 100 individuals worth of data, can scale to
 different amounts of individuals later
 
 ```{r}
-NIDS <- 10000
+set.seed(1234567)
+NIDS <- 100
 ```
 
 ```{r}
-demogs <- generate_demographics(NIDS) %>% mutate(ID = 1:nrow(.))
+demogs <- generate_demographics(NIDS) %>% mutate(ID = 1:nrow(.), 
+                                                 PMA = PMA/7 # in weeks for stockmann model
+                                                 )
 ```
 
 ```{r}
@@ -38,7 +46,7 @@ for_dosing <- demogs %>%
 all_dosing <- for_dosing %>% group_by(ID) %>%
     nest() %>%
     mutate(dose = map(data, ~ dosing_6bin_pna_wt(.$AGE, .$WT))
-           ) %>% unnest()
+           ) %>% unnest() 
 ```
 
 Dose for 8 days
@@ -49,6 +57,90 @@ all_dosing <- all_dosing %>%
 
 ```{r}
 kable(head(all_dosing, n = 15))
+```
+
+```{r}
+vanc_stockmann <- models$use("vanc_stockmann")
+```
+
+Normalize column capitalizations to make mrgsolve happy
+
+```{r}
+mrg_data <- bind_cols(
+  all_dosing %>% select(ID),
+  all_dosing %>% select(everything(), -ID) %>% lowercase_names()
+  ) %>% mutate(amt = dose)
+```
+
+```{r}
+raw_sim <- vanc_stockmann %>% data_set(mrg_data) %>% mrgsim(end = 10*24, delta = 2) %>%
+  as.data.frame %>% as_data_frame %>% capitalize_names()
+```
+
+### Check distribution of trough values at SS
+```{r}
+peak_trough <- raw_sim %>% filter(between(TIME, 150, 200)) %>%
+  select(ID, TIME, CP, DV) %>%
+  gather(obs, value, CP, DV) %>%
+  group_by(ID, obs) %>%
+  summarize(ctrough = min(value),
+            cmax = max(value))
+```
+
+Peak and trough values are representative of real observations
+```{r}
+peak_trough %>%
+  gather(sample, value, ctrough, cmax) %>%
+  ggplot(aes(x = value)) + 
+  geom_density(aes(fill = obs), alpha = 0.6) +
+  facet_wrap(~sample, scales = "free") + theme_bw() +
+  base_theme()
+```
+
+
+* take simulated values and prepare for nonmem estimation
+
+```{r}
+from_sim <- raw_sim %>% 
+  distinct(ID, TIME, DV)
+
+from_orig <-  mrg_data %>% 
+  capitalize_names() %>% 
+  select(
+    ID,
+    TIME,
+    WT,
+    CRE,
+    AGE,
+    PMA, 
+    HT,
+    SEX,
+    CMT,
+    DOSE,
+    II,
+    ADDL
+  )
+```
+
+
+```{r }
+data_for_nonmem <- left_join(from_sim, from_orig) %>% 
+  group_by(ID) %>%
+  fill(WT:CMT) %>%
+  mutate(
+    EVID = ifelse(DV == 0, 1, 0)
+  ) %>% 
+  ## don't need to go too far after final dose for estimation purposes
+  ## also don't n
+  filter(TIME < 216) %>% 
+  ## don't need 0 concentration time point as not realistic
+  distinct(ID, TIME, .keep_all = TRUE)
+```
+
+### write data for nonmem
+
+```{r}
+write_nonmem(data_for_nonmem, "../modeling/mdata/rich_100.csv")
 ```
 
 ```{r cache = FALSE}
