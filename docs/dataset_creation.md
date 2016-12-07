@@ -210,98 +210,27 @@ devtools::session_info()
 #>  tz       America/New_York            
 #>  date     2016-12-06
 #> Packages ------------------------------------------------------------------
-#>  package       * version     date      
-#>  assertthat      0.1         2013-12-06
-#>  backports       1.0.4       2016-10-24
-#>  bookdown        0.2         2016-11-12
-#>  codetools       0.2-15      2016-10-05
-#>  colorspace      1.2-7       2016-10-11
-#>  DBI             0.5-1       2016-09-10
-#>  devtools        1.12.0      2016-06-24
-#>  digest          0.6.10      2016-08-02
-#>  dplyr         * 0.5.0       2016-06-24
-#>  evaluate        0.10        2016-10-11
-#>  ggplot2       * 2.1.0.9001  2016-11-07
-#>  gtable          0.2.0       2016-02-26
-#>  highr           0.6         2016-05-09
-#>  htmltools       0.3.5       2016-03-21
-#>  httpuv          1.3.3       2015-08-04
-#>  knitr         * 1.15        2016-11-09
-#>  labeling        0.3         2014-08-23
-#>  lazyeval        0.2.0       2016-06-12
-#>  magrittr      * 1.5         2014-11-22
-#>  MASS            7.3-45      2016-04-21
-#>  memoise         1.0.0       2016-01-29
-#>  mime            0.5         2016-07-07
-#>  miniUI          0.1.1       2016-01-15
-#>  mrgsolve      * 0.7.6.9029  2016-12-06
-#>  munsell         0.4.3       2016-02-13
-#>  overseer      * 0.0.1       2016-12-06
-#>  PKPDmisc      * 0.4.4.9000  2016-11-02
-#>  plyr            1.8.4       2016-06-08
-#>  purrr         * 0.2.2       2016-06-18
-#>  R6              2.2.0       2016-10-05
-#>  Rcpp            0.12.8      2016-11-17
-#>  RcppArmadillo   0.7.500.0.0 2016-10-22
-#>  readr         * 1.0.0       2016-08-03
-#>  rmarkdown       1.2         2016-11-21
-#>  rprojroot       1.1         2016-10-29
-#>  scales          0.4.0.9003  2016-11-07
-#>  shiny           0.14.2      2016-11-01
-#>  stringi         1.1.2       2016-10-01
-#>  stringr         1.1.0       2016-08-19
-#>  tibble        * 1.2         2016-08-26
-#>  tidyr         * 0.6.0       2016-08-12
-#>  tidyverse     * 1.0.0       2016-09-09
-#>  vancomycin    * 0.0.2       2016-11-08
-#>  withr           1.0.2       2016-06-20
-#>  xtable          1.8-2       2016-02-05
-#>  yaml            2.1.13      2014-06-12
-#>  source                                       
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  Github (hadley/ggplot2@70c3d69)              
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  Github (metrumresearchgroup/mrgsolve@d92f31a)
-#>  CRAN (R 3.3.2)                               
-#>  local                                        
-#>  Github (dpastoor/PKPDmisc@beae2a6)           
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  Github (hadley/scales@d58d83a)               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  Github (dpastoor/vancomycin@2436cb6)         
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)                               
-#>  CRAN (R 3.3.2)
+#>  package   * version date       source        
+#>  backports   1.0.4   2016-10-24 CRAN (R 3.3.2)
+#>  bookdown    0.2     2016-11-12 CRAN (R 3.3.2)
+#>  devtools    1.12.0  2016-06-24 CRAN (R 3.3.2)
+#>  digest      0.6.10  2016-08-02 CRAN (R 3.3.2)
+#>  evaluate    0.10    2016-10-11 CRAN (R 3.3.2)
+#>  htmltools   0.3.5   2016-03-21 CRAN (R 3.3.2)
+#>  httpuv      1.3.3   2015-08-04 CRAN (R 3.3.2)
+#>  knitr       1.15    2016-11-09 CRAN (R 3.3.2)
+#>  magrittr    1.5     2014-11-22 CRAN (R 3.3.2)
+#>  memoise     1.0.0   2016-01-29 CRAN (R 3.3.2)
+#>  mime        0.5     2016-07-07 CRAN (R 3.3.2)
+#>  miniUI      0.1.1   2016-01-15 CRAN (R 3.3.2)
+#>  R6          2.2.0   2016-10-05 CRAN (R 3.3.2)
+#>  Rcpp        0.12.8  2016-11-17 CRAN (R 3.3.2)
+#>  rmarkdown   1.2     2016-11-21 CRAN (R 3.3.2)
+#>  rprojroot   1.1     2016-10-29 CRAN (R 3.3.2)
+#>  shiny       0.14.2  2016-11-01 CRAN (R 3.3.2)
+#>  stringi     1.1.2   2016-10-01 CRAN (R 3.3.2)
+#>  stringr     1.1.0   2016-08-19 CRAN (R 3.3.2)
+#>  withr       1.0.2   2016-06-20 CRAN (R 3.3.2)
+#>  xtable      1.8-2   2016-02-05 CRAN (R 3.3.2)
+#>  yaml        2.1.13  2014-06-12 CRAN (R 3.3.2)
 ```
