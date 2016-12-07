@@ -28,7 +28,7 @@ GGally::ggpairs(sample_ids)
 ```
 
 ```{r}
-head(sample_ids)
+kable(head(sample_ids))
 ```
 
 
