@@ -141,14 +141,268 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="generate-data-for-mrgsolve" class="section level2">
 <h2><span class="header-section-number">3.1</span> Generate data for mrgsolve</h2>
 <p>start with a baseline of having 100 individuals worth of data, can scale to different amounts of individuals later</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NIDS &lt;-<span class="st"> </span><span class="dv">100</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">NIDS &lt;-<span class="st"> </span><span class="dv">10000</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demogs &lt;-<span class="st"> </span><span class="kw">generate_demographics</span>(NIDS) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">ID =</span> <span class="dv">1</span>:<span class="kw">nrow</span>(.))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">for_dosing &lt;-<span class="st"> </span>demogs %&gt;%<span class="st"> </span>
 <span class="st">                  </span><span class="kw">mutate</span>(
                       <span class="dt">CMT =</span> <span class="dv">1</span>, 
                       <span class="dt">EVID =</span> <span class="dv">1</span>,
                       <span class="dt">TIME =</span> <span class="dv">0</span>
-                  )</code></pre></div>
+                  ) %&gt;%<span class="st"> </span><span class="kw">select</span>(ID, <span class="kw">everything</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_dosing &lt;-<span class="st"> </span>for_dosing %&gt;%<span class="st"> </span><span class="kw">group_by</span>(ID) %&gt;%
+<span class="st">    </span><span class="kw">nest</span>() %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">map</span>(data, ~<span class="st"> </span><span class="kw">dosing_6bin_pna_wt</span>(.$AGE, .$WT))
+           ) %&gt;%<span class="st"> </span><span class="kw">unnest</span>()</code></pre></div>
+<p>Dose for 8 days</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">all_dosing &lt;-<span class="st"> </span>all_dosing %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">addl =</span> <span class="kw">as.integer</span>(<span class="kw">ceiling</span>(<span class="dv">24</span>/II*<span class="dv">8</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">head</span>(all_dosing, <span class="dt">n =</span> <span class="dv">15</span>))</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">ID</th>
+<th align="right">WT</th>
+<th align="right">CRE</th>
+<th align="right">AGE</th>
+<th align="right">PMA</th>
+<th align="right">HT</th>
+<th align="left">SEX</th>
+<th align="right">CMT</th>
+<th align="right">EVID</th>
+<th align="right">TIME</th>
+<th align="right">DOSE</th>
+<th align="right">II</th>
+<th align="right">addl</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3.97</td>
+<td align="right">0.603</td>
+<td align="right">20.16</td>
+<td align="right">279</td>
+<td align="right">51.2</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">59.5</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">3.17</td>
+<td align="right">0.559</td>
+<td align="right">28.23</td>
+<td align="right">299</td>
+<td align="right">55.5</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">47.5</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">2.50</td>
+<td align="right">0.445</td>
+<td align="right">42.79</td>
+<td align="right">274</td>
+<td align="right">56.2</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">37.6</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">2.14</td>
+<td align="right">0.901</td>
+<td align="right">19.31</td>
+<td align="right">249</td>
+<td align="right">46.0</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">32.1</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1.99</td>
+<td align="right">0.826</td>
+<td align="right">44.52</td>
+<td align="right">231</td>
+<td align="right">47.5</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">29.9</td>
+<td align="right">12</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">3.74</td>
+<td align="right">0.404</td>
+<td align="right">45.53</td>
+<td align="right">299</td>
+<td align="right">51.3</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">56.1</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">1.78</td>
+<td align="right">0.679</td>
+<td align="right">27.59</td>
+<td align="right">242</td>
+<td align="right">46.8</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">26.7</td>
+<td align="right">12</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">4.17</td>
+<td align="right">0.524</td>
+<td align="right">16.24</td>
+<td align="right">302</td>
+<td align="right">52.3</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">62.6</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">2.33</td>
+<td align="right">0.473</td>
+<td align="right">9.13</td>
+<td align="right">241</td>
+<td align="right">43.8</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">34.9</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">3.07</td>
+<td align="right">0.609</td>
+<td align="right">26.87</td>
+<td align="right">287</td>
+<td align="right">51.3</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">46.0</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">2.99</td>
+<td align="right">0.823</td>
+<td align="right">17.71</td>
+<td align="right">241</td>
+<td align="right">51.9</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">44.8</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">1.54</td>
+<td align="right">0.279</td>
+<td align="right">23.67</td>
+<td align="right">222</td>
+<td align="right">43.0</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">23.1</td>
+<td align="right">12</td>
+<td align="right">16</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">4.62</td>
+<td align="right">0.315</td>
+<td align="right">14.58</td>
+<td align="right">322</td>
+<td align="right">56.2</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">69.3</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">1.01</td>
+<td align="right">0.330</td>
+<td align="right">20.18</td>
+<td align="right">205</td>
+<td align="right">42.0</td>
+<td align="left">FEMALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">15.2</td>
+<td align="right">24</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">3.58</td>
+<td align="right">0.624</td>
+<td align="right">36.40</td>
+<td align="right">275</td>
+<td align="right">56.0</td>
+<td align="left">MALE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">53.7</td>
+<td align="right">8</td>
+<td align="right">24</td>
+</tr>
+</tbody>
+</table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">session_info</span>()
 <span class="co">#&gt; Session info --------------------------------------------------------------</span>
 <span class="co">#&gt;  setting  value                       </span>
@@ -158,14 +412,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co">#&gt;  language (EN)                        </span>
 <span class="co">#&gt;  collate  English_United States.1252  </span>
 <span class="co">#&gt;  tz       America/New_York            </span>
-<span class="co">#&gt;  date     2016-11-17</span>
+<span class="co">#&gt;  date     2016-12-06</span>
 <span class="co">#&gt; Packages ------------------------------------------------------------------</span>
 <span class="co">#&gt;  package    * version    date       source                              </span>
 <span class="co">#&gt;  assertthat   0.1        2013-12-06 CRAN (R 3.3.2)                      </span>
+<span class="co">#&gt;  backports    1.0.4      2016-10-24 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  bookdown     0.2        2016-11-12 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  codetools    0.2-15     2016-10-05 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  colorspace   1.2-7      2016-10-11 CRAN (R 3.3.2)                      </span>
-<span class="co">#&gt;  crayon       1.3.2      2016-06-28 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  DBI          0.5-1      2016-09-10 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  devtools     1.12.0     2016-06-24 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  digest       0.6.10     2016-08-02 CRAN (R 3.3.2)                      </span>
@@ -173,12 +427,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co">#&gt;  evaluate     0.10       2016-10-11 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  ggplot2    * 2.1.0.9001 2016-11-07 Github (hadley/ggplot2@70c3d69)     </span>
 <span class="co">#&gt;  gtable       0.2.0      2016-02-26 CRAN (R 3.3.2)                      </span>
+<span class="co">#&gt;  highr        0.6        2016-05-09 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  htmltools    0.3.5      2016-03-21 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  httpuv       1.3.3      2015-08-04 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  knitr      * 1.15       2016-11-09 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  lazyeval     0.2.0      2016-06-12 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  magrittr   * 1.5        2014-11-22 CRAN (R 3.3.2)                      </span>
-<span class="co">#&gt;  MASS         7.3-45     2016-04-21 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  memoise      1.0.0      2016-01-29 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  mime         0.5        2016-07-07 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  miniUI       0.1.1      2016-01-15 CRAN (R 3.3.2)                      </span>
@@ -187,14 +441,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co">#&gt;  plyr         1.8.4      2016-06-08 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  purrr      * 0.2.2      2016-06-18 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  R6           2.2.0      2016-10-05 CRAN (R 3.3.2)                      </span>
-<span class="co">#&gt;  Rcpp         0.12.7     2016-09-05 CRAN (R 3.3.2)                      </span>
+<span class="co">#&gt;  Rcpp         0.12.8     2016-11-17 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  readr      * 1.0.0      2016-08-03 CRAN (R 3.3.2)                      </span>
-<span class="co">#&gt;  rmarkdown    1.1        2016-10-16 CRAN (R 3.3.2)                      </span>
+<span class="co">#&gt;  rmarkdown    1.2        2016-11-21 CRAN (R 3.3.2)                      </span>
+<span class="co">#&gt;  rprojroot    1.1        2016-10-29 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  scales       0.4.0.9003 2016-11-07 Github (hadley/scales@d58d83a)      </span>
 <span class="co">#&gt;  shiny        0.14.2     2016-11-01 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  stringi      1.1.2      2016-10-01 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  stringr      1.1.0      2016-08-19 CRAN (R 3.3.2)                      </span>
-<span class="co">#&gt;  testthat     1.0.2      2016-04-23 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  tibble     * 1.2        2016-08-26 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  tidyr      * 0.6.0      2016-08-12 CRAN (R 3.3.2)                      </span>
 <span class="co">#&gt;  tidyverse  * 1.0.0      2016-09-09 CRAN (R 3.3.2)                      </span>
