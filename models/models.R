@@ -4,11 +4,9 @@ library(overseer)
 ## wd to the same location as the script itself
 ## setwd(file.path(getwd()," models"))
 
-if (interactive()) {
-  if (!file.exists("vanco_stockmann.cpp")) {
-    stop("make sure the directory is set to the models directory before running interactively,
-         to make sure the relative paths will be the same as when sourcing")
-  }
+if (!interactive_model_check("vanco_stockmann.cpp")) {
+  stop("make sure the directory is set to the models directory before running interactively,
+       to make sure the relative paths will be the same as when sourcing")
 }
 
 models <- Overseer$new()
@@ -16,3 +14,4 @@ models <- Overseer$new()
 
 models$add_model_file("vanc_stockmann")
 
+models
